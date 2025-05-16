@@ -31,16 +31,42 @@
       left: 0;
       z-index: 10;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .logo {
-      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-weight: bold;
-      border-radius: 12px;
-      padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.05);
+      color: black;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      color: white;
+      font-weight: 600;
+    }
+
+    .center-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: white;
     }
 
     nav {
@@ -86,15 +112,18 @@
       color: #ccc;
       font-size: 1.2rem;
     }
-
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">Allan & Gökhan</div>
+    <div class="header-left">
+      <div class="logo">🎯</div>
+    </div>
+
+    <a href="#" class="center-link">Allan & Gökhan</a>
+
     <nav>
-      <a href="#">Start</a>
       <a href="#">Projekte</a>
       <a href="#">Kontakt</a>
     </nav>
