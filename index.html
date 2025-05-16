@@ -3,10 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allan Gökhan</title>
+  <title>Allan & Gökhan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      background: url('https://source.unsplash.com/1600x900/?technology,dark') no-repeat center center/cover;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 3rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60vh;
+      padding: 20px;
+    }
+
+    .video-placeholder {
+      width: 80%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px dashed white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+
+    /* Slide Menu */
+    .sidemenu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 40px 20px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidemenu.open {
+      left: 0;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      cursor: pointer;
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .sidemenu h2 {
+      margin-bottom: 20px;
+    }
+
+    .sidemenu p {
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+  </style>
 </head>
 <body>
-  <h1>Willkommen auf allangokhan.forum!</h1>
-  <p>Diese Website ist mit GitHub Pages und Porkbun veröffentlicht.</p>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰ Menü</div>
+
+  <div class="sidemenu" id="menu">
+    <h2>Inhalte</h2>
+    <p>👋 Willkommen auf der Seite von Allan & Gökhan</p>
+    <p>📺 Hier könnten deine Projekte oder Videos stehen</p>
+    <p>📱 Menü wie Apple, aber deins 😎</p>
+  </div>
+
+  <header>
+    Allan & Gökhan
+  </header>
+
+  <div class="video-container">
+    <div class="video-placeholder">
+      Hier kannst du Videos oder andere Inhalte einfügen
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
