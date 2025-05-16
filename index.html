@@ -23,9 +23,9 @@
 
     header {
       width: 100%;
-      padding: 0.5rem 1rem; /* kleinerer Abstand oben/unten */
+      padding: 0.5rem 1rem; /* kompakter */
       background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px); /* weniger Blur */
+      backdrop-filter: blur(6px); /* weniger blur */
       position: fixed;
       top: 0;
       left: 0;
@@ -135,12 +135,12 @@
       z-index: 999;
     }
 
-    /* Responsive für Mobilgeräte */
+    /* Responsive für Mobile */
     @media (max-width: 600px) {
       header {
         padding: 0.5rem 1rem;
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row; /* bleibt nebeneinander */
+        justify-content: space-between;
       }
 
       .logo-img {
@@ -149,9 +149,15 @@
       }
 
       .center-link {
-        font-size: 1.2rem;
-        position: static;
-        transform: none;
+        font-size: 1.1rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
       }
 
       h1 {
