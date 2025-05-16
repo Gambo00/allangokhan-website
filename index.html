@@ -25,7 +25,6 @@
       padding: 1rem 2rem;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       position: fixed;
       top: 0;
       left: 0;
@@ -33,12 +32,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
     }
 
     .logo {
@@ -53,12 +46,6 @@
       color: black;
     }
 
-    .title {
-      font-size: 1.2rem;
-      color: white;
-      font-weight: 600;
-    }
-
     .center-link {
       position: absolute;
       left: 50%;
@@ -67,11 +54,6 @@
       font-size: 1.6rem;
       font-weight: bold;
       color: white;
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
     }
 
     nav a {
@@ -105,27 +87,69 @@
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       display: flex;
       justify-content: center;
       align-items: center;
       color: #ccc;
       font-size: 1.2rem;
     }
+
+    /* Kontakt-Popup */
+    .kontakt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      z-index: 1000;
+    }
+
+    .kontakt-popup h2 {
+      margin-bottom: 1rem;
+    }
+
+    .kontakt-popup div {
+      margin: 10px 0;
+      background: rgba(255,255,255,0.08);
+      padding: 0.8rem;
+      border-radius: 12px;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
 
+  <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+
+  <div class="kontakt-popup" id="kontaktPopup">
+    <h2>Kontakt</h2>
+    <div>👤 Name: Allan Gökhan</div>
+    <div>📞 Nummer: +43 664 1234567</div>
+    <div>📍 Standort: Österreich</div>
+    <div>📧 E-Mail: mail@example.com</div>
+  </div>
+
   <header>
-    <div class="header-left">
-      <div class="logo">🎯</div>
-    </div>
-
+    <div class="logo">🎯</div>
     <a href="#" class="center-link">Allan & Gökhan</a>
-
     <nav>
-      <a href="#">Projekte</a>
-      <a href="#">Kontakt</a>
+      <a href="javascript:void(0)" onclick="openPopup()">Kontakt</a>
     </nav>
   </header>
 
@@ -135,6 +159,17 @@
       Hier kommt dein Inhalt rein (Videos, Texte, Slides etc.)
     </div>
   </main>
+
+  <script>
+    function openPopup() {
+      document.getElementById("kontaktPopup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    function closePopup() {
+      document.getElementById("kontaktPopup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
