@@ -290,6 +290,20 @@
       border-radius: 8px;
     }
 
+    .carousel-dot {
+      display: inline-block;
+      margin: 0 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: gray;
+      pointer-events: auto;
+    }
+
+    .carousel-dot.active {
+      background: white;
+    }
+
 </style>
 </head>
 <body>
@@ -384,6 +398,7 @@
       const image = document.getElementById("carouselImage");
       currentImage = (index + images.length) % images.length;
       image.src = images[currentImage];
+      updateDots();
     }
 
     function nextSlide() {
@@ -402,15 +417,19 @@
       dotsContainer.innerHTML = "";
       images.forEach((_, i) => {
         const dot = document.createElement("span");
-        dot.style.display = "inline-block";
-        dot.style.margin = "0 5px";
-        dot.style.width = "10px";
-        dot.style.height = "10px";
-        dot.style.borderRadius = "50%";
-        dot.style.background = i === currentImage ? "white" : "gray";
-        dot.style.cursor = "default";
-        // Dots are not clickable
+        dot.className = "carousel-dot";
+        dot.addEventListener("click", () => showSlide(i));
         dotsContainer.appendChild(dot);
+      });
+      updateDots();
+    }appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      const dots = document.querySelectorAll(".carousel-dot");
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentImage);
       });
     }
 
