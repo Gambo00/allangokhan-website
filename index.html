@@ -166,6 +166,42 @@
       font-size: 1rem;
       cursor: pointer;
     }
+      .kontakt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      z-index: 1000;
+    }
+
+    .kontakt-popup h2 {
+      margin-bottom: 1rem;
+    }
+
+    .kontakt-popup div {
+      margin: 10px 0;
+      background: rgba(255,255,255,0.08);
+      padding: 0.8rem;
+      border-radius: 12px;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
@@ -199,8 +235,8 @@
       <textarea id="message" rows="4" placeholder="Deine Nachricht" required></textarea>
       <button type="submit">Absenden</button>
     </form>
-      <div class="popup-overlay" id="overlay" onclick="closePopup()" style="display: none;"></div>
-    <div class="kontakt-popup" id="kontaktPopup" style="display: none;">
+      <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+    <div class="kontakt-popup" id="kontaktPopup">
       <h2>Kontakt</h2>
       <div>👤 Name: Allan Gökhan</div>
       <div>📞 Nummer: +43 664 1234567</div>
