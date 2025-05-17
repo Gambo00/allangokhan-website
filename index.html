@@ -315,6 +315,7 @@
   <button onclick="prevSlide()">⬅</button>
   <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
   <button onclick="nextSlide()">➡</button>
+  <div id="dotsContainer" style="margin-top: 1rem;"></div>
 </div>
 
     <form id="feedbackForm">
@@ -373,9 +374,9 @@
       document.getElementById("overlay").style.display = "none";
     }
       const images = [
-      "https://i.imgur.com/qRuklDg.png",
       "https://i.imgur.com/RESrImt.png",
-      "https://i.imgur.com/qRuklDg.png"
+      "https://i.imgur.com/qRuklDg.png",
+      "https://via.placeholder.com/300x200?text=Bild+3"
     ];
     let currentImage = 0;
 
@@ -394,7 +395,25 @@
     }
 
     showSlide(0);
+    createDots();
 
-  </script>
+      function createDots() {
+      const dotsContainer = document.getElementById("dotsContainer");
+      dotsContainer.innerHTML = "";
+      images.forEach((_, i) => {
+        const dot = document.createElement("span");
+        dot.style.display = "inline-block";
+        dot.style.margin = "0 5px";
+        dot.style.width = "10px";
+        dot.style.height = "10px";
+        dot.style.borderRadius = "50%";
+        dot.style.background = i === currentImage ? "white" : "gray";
+        dot.style.cursor = "pointer";
+        dot.addEventListener("click", () => showSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+</script>
 </body>
 </html>
