@@ -326,9 +326,9 @@
     </div>
 
     <div class="slideshow" id="carousel" style="position: relative;">
-  <button onclick="prevSlide()">⬅</button>
+  <button type="button" onclick="prevSlide()">⬅</button>
   <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
-  <button onclick="nextSlide()">➡</button>
+  <button type="button" onclick="nextSlide()">➡</button>
   <div id="dotsContainer" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); pointer-events: none;"></div>
 </div>
 
@@ -365,7 +365,11 @@
       const message = document.getElementById("message").value;
       const webhookURL = "https://discord.com/api/webhooks/1373399241858220062/hnBuQo6wnitsLq0p1rQpSAnO82pf_N4fX6g5GmoUo0TX5lBjf1mk6WxiFE1XzGrMwONV";
 
-      const discordMessage = `\n\u0060\u0060\u0060\nName: ${name}\nNachricht: ${message}\n\u0060\u0060\u0060`;
+      const discordMessage = `
+```
+Name: ${name}
+Nachricht: ${message}
+````;
 
       fetch(webhookURL, {
         method: "POST",
@@ -378,8 +382,8 @@
     });
 
     const images = [
-      "https://i.imgur.com/RESrImt.png",
-      "https://i.imgur.com/qRuklDg.png",
+      "https://via.placeholder.com/300x200?text=Bild+1",
+      "https://via.placeholder.com/300x200?text=Bild+2",
       "https://via.placeholder.com/300x200?text=Bild+3"
     ];
     let currentImage = 0;
