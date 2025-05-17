@@ -410,20 +410,21 @@
     }
 
     showSlide(0);
-    createDots();
+createDots();
 
-      function createDots() {
-      const dotsContainer = document.getElementById("dotsContainer");
-      dotsContainer.innerHTML = "";
-      images.forEach((_, i) => {
-        const dot = document.createElement("span");
-        dot.className = "carousel-dot";
-        dot.addEventListener("click", () => showSlide(i));
-        dotsContainer.appendChild(dot);
-      });
+function createDots() {
+  const dotsContainer = document.getElementById("dotsContainer");
+  dotsContainer.innerHTML = "";
+  images.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "carousel-dot";
+    dot.addEventListener("click", () => showSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+  updateDots();
+}
       updateDots();
-    }appendChild(dot);
-      });
+    });
     }
 
     function updateDots() {
