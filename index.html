@@ -130,11 +130,11 @@
     }
 
     .slideshow .prev {
-      left: 20px;
+      left: 10px;
     }
 
     .slideshow .next {
-      right: 20px;
+      right: 10px;
     }
 
     form {
@@ -261,8 +261,31 @@
         width: 90%;
       }
 
+      .slideshow {
+        flex-direction: column;
+        align-items: center;
+      }
+
       .slideshow img {
         width: 90%;
+        height: auto;
+      }
+
+      .slideshow button {
+        top: auto;
+        bottom: -50px;
+        transform: none;
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+      }
+
+      .slideshow .prev {
+        left: 20%;
+      }
+
+      .slideshow .next {
+        right: 20%;
       }
 
       .kontakt-popup {
