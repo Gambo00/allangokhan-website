@@ -6,41 +6,13 @@
   <title>Allan & Gökhan</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Inter', sans-serif;
       background: url('https://i.imgur.com/ruPkVMx.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    #loader {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #loader img {
-      width: 100px;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.8; }
+      margin: 0;
+      padding: 0;
     }
 
     header {
@@ -104,39 +76,47 @@
       to { text-shadow: 0 0 20px #ffcc00; }
     }
 
-    .content-box, .slideshow, form {
+    .content-box {
       margin: 0 auto;
       width: 80%;
       max-width: 900px;
+      height: 500px;
       border-radius: 20px;
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
-      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
       margin-bottom: 2rem;
     }
 
     iframe {
       width: 100%;
-      height: 400px;
+      height: 100%;
       border: none;
       border-radius: 20px;
     }
 
-    .slideshow img {
-      width: 100%;
-      border-radius: 12px;
+    form {
+      margin: 0 auto;
+      width: 80%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1.5rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
     }
 
     form input, form textarea {
       width: 100%;
-      padding: 0.5rem;
-      margin-top: 10px;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
       border: none;
       border-radius: 10px;
     }
 
     form button {
-      margin-top: 10px;
       padding: 0.7rem;
       width: 100%;
       background: gold;
@@ -144,64 +124,32 @@
       border-radius: 10px;
       font-weight: bold;
     }
-
-    .kontakt-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
-      padding: 2rem;
-      border-radius: 20px;
-      width: 300px;
-      text-align: center;
-      display: none;
-      z-index: 1000;
-    }
-
-    .kontakt-popup h2 {
-      margin-bottom: 1rem;
-    }
-
-    .kontakt-popup div {
-      margin: 10px 0;
-      background: rgba(255,255,255,0.08);
-      padding: 0.8rem;
-      border-radius: 12px;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      z-index: 999;
-    }
   </style>
 </head>
 <body>
-  <!-- ... HTML bleibt gleich ... -->
+  <header>
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
+    <a href="#" class="center-link">Allan & Gökhan</a>
+    <nav>
+      <a href="https://snapchat.com/t/uCmJ17at" target="_blank">📸 Snapchat</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Willkommen 👋</h1>
+    <div class="content-box">
+      <iframe src="https://www.youtube.com/embed/d_BZSpm2bS0" allowfullscreen></iframe>
+    </div>
+
+    <form id="feedbackForm">
+      <h2>Feedback senden</h2>
+      <input type="text" id="name" placeholder="Dein Name" required>
+      <textarea id="message" rows="4" placeholder="Deine Nachricht" required></textarea>
+      <button type="submit">Absenden</button>
+    </form>
+  </main>
+
   <script>
-    // Ladeanimation
-    window.addEventListener("load", function() {
-      document.getElementById("loader").style.display = "none";
-    });
-
-    // Popup
-    function openPopup() {
-      document.getElementById("kontaktPopup").style.display = "block";
-      document.getElementById("overlay").style.display = "block";
-    }
-    function closePopup() {
-      document.getElementById("kontaktPopup").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
-    }
-
-    // Discord Webhook senden mit Codeblock-Formatierung
     document.getElementById("feedbackForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const name = document.getElementById("name").value;
