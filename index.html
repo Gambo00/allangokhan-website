@@ -170,15 +170,15 @@
 </head>
 <body>
   <div id="loader">
-    <img src="https://i.imgur.com/RESrImt.png" alt="Logo">
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo">
   </div>
 
   <header>
-    <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
     <a href="#" class="center-link">Allan & Gökhan</a>
     <nav>
-      <a href="https://snapchat.com/t/uCmJ17at" target="_blank">📸 Snapchat</a>
-    </nav>
+  <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
+</nav>
   </header>
 
   <main>
@@ -188,9 +188,9 @@
     </div>
 
     <div class="slideshow">
-      <img src="https://i.imgur.com/RESrImt.png" alt="Bild 1">
-      <img src="https://i.imgur.com/jax8TzQ.png" alt="Bild 2">
-      <img src="https://i.imgur.com/2OsV7Pz.png" alt="Bild 3">
+      <img src="https://via.placeholder.com/300x200?text=Bild+1" alt="Bild 1">
+      <img src="https://via.placeholder.com/300x200?text=Bild+2" alt="Bild 2">
+      <img src="https://via.placeholder.com/300x200?text=Bild+3" alt="Bild 3">
     </div>
 
     <form id="feedbackForm">
@@ -199,6 +199,20 @@
       <textarea id="message" rows="4" placeholder="Deine Nachricht" required></textarea>
       <button type="submit">Absenden</button>
     </form>
+      <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+
+    <div class="kontakt-popup" id="kontaktPopup">
+      <h2>Kontakt</h2>
+      <div>👤 Name: Allan Gökhan</div>
+      <div>📞 Nummer: +43 664 1234567</div>
+      <div>📍 Standort: Österreich</div>
+      <div>📧 E-Mail: mail@example.com</div>
+      <div>
+        <a href="https://snapchat.com/t/uCmJ17at" target="_blank" style="color: white; text-decoration: none;">
+          📸 Snapchat
+        </a>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -223,6 +237,14 @@
         document.getElementById("feedbackForm").reset();
       });
     });
+      function openPopup() {
+      document.getElementById("kontaktPopup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    function closePopup() {
+      document.getElementById("kontaktPopup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
   </script>
 </body>
 </html>
