@@ -311,11 +311,11 @@
       <iframe src="https://www.youtube.com/embed/d_BZSpm2bS0" allowfullscreen></iframe>
     </div>
 
-    <div class="slideshow" id="carousel">
+    <div class="slideshow" id="carousel" style="position: relative;">
   <button onclick="prevSlide()">⬅</button>
   <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
   <button onclick="nextSlide()">➡</button>
-  <div id="dotsContainer" style="margin-top: 1rem;"></div>
+  <div id="dotsContainer" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); pointer-events: none;"></div>
 </div>
 
     <form id="feedbackForm">
@@ -408,8 +408,8 @@
         dot.style.height = "10px";
         dot.style.borderRadius = "50%";
         dot.style.background = i === currentImage ? "white" : "gray";
-        dot.style.cursor = "pointer";
-        dot.addEventListener("click", () => showSlide(i));
+        dot.style.cursor = "default";
+        // Dots are not clickable
         dotsContainer.appendChild(dot);
       });
     }
