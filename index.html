@@ -14,7 +14,6 @@
       margin: 0;
       padding: 0;
     }
-    }
 
     header {
       width: 100%;
@@ -106,18 +105,27 @@
 
     .slideshow {
       display: flex;
+      align-items: center;
       justify-content: center;
       gap: 1rem;
-      margin: 0 auto 2rem;
-      max-width: 900px;
-      flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
 
     .slideshow img {
-      width: 30%;
-      max-width: 280px;
+      width: 300px;
+      height: 200px;
       border-radius: 12px;
       object-fit: cover;
+    }
+
+    .slideshow button {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
     }
 
     form {
@@ -207,6 +215,20 @@
       z-index: 999;
     }
 
+    .carousel-dot {
+      display: inline-block;
+      margin: 0 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: gray;
+      pointer-events: auto;
+    }
+
+    .carousel-dot.active {
+      background: white;
+    }
+
     @media (max-width: 600px) {
       header {
         flex-direction: row;
@@ -235,20 +257,6 @@
         padding: 0.4rem 0.7rem;
       }
 
-      .logo-img {
-        width: 50px;
-        height: 50px;
-      }
-
-      .center-link {
-        font-size: 1.1rem;
-      }
-
-      nav a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.7rem;
-      }
-
       h1 {
         font-size: 2.2rem;
       }
@@ -267,50 +275,9 @@
         padding: 1rem;
       }
     }
-      .slideshow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .slideshow img {
-      width: 300px;
-      height: 200px;
-      border-radius: 12px;
-      object-fit: cover;
-    }
-
-    .slideshow button {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-    }
-
-    .carousel-dot {
-      display: inline-block;
-      margin: 0 5px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: gray;
-      pointer-events: auto;
-    }
-
-    .carousel-dot.active {
-      background: white;
-    }
-
-</style>
+  </style>
 </head>
 <body>
-  
-
   <header>
     <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
     <a href="#" class="center-link">Allan & Gökhan</a>
@@ -326,11 +293,11 @@
     </div>
 
     <div class="slideshow" id="carousel" style="position: relative;">
-  <button type="button" onclick="prevSlide()">⬅</button>
-  <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
-  <button type="button" onclick="nextSlide()">➡</button>
-  <div id="dotsContainer" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); pointer-events: none;"></div>
-</div>
+      <button type="button" onclick="prevSlide()">⬅</button>
+      <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
+      <button type="button" onclick="nextSlide()">➡</button>
+      <div id="dotsContainer" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); pointer-events: none;"></div>
+    </div>
 
     <form id="feedbackForm">
       <h2>Feedback senden</h2>
@@ -356,83 +323,79 @@
   </main>
 
   <script>
-  window.addEventListener("load", function () {
-        document.getElementById("feedbackForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const message = document.getElementById("message").value;
-      const webhookURL = "https://discord.com/api/webhooks/1373399241858220062/hnBuQo6wnitsLq0p1rQpSAnO82pf_N4fX6g5GmoUo0TX5lBjf1mk6WxiFE1XzGrMwONV";
+    window.addEventListener("load", function () {
+      document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const message = document.getElementById("message").value;
+        const webhookURL = "https://discord.com/api/webhooks/1373399241858220062/hnBuQo6wnitsLq0p1rQpSAnO82pf_N4fX6g5GmoUo0TX5lBjf1mk6WxiFE1XzGrMwONV";
 
-      const discordMessage = `
-```
-Name: ${name}
-Nachricht: ${message}
-````;
+        const discordMessage = `Name: ${name}\nNachricht: ${message}`;
 
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: discordMessage })
-      }).then(() => {
-        alert("Danke für dein Feedback!");
-        document.getElementById("feedbackForm").reset();
+        fetch(webhookURL, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: discordMessage })
+        }).then(() => {
+          alert("Danke für dein Feedback!");
+          document.getElementById("feedbackForm").reset();
+        });
       });
+
+      const images = [
+        "https://via.placeholder.com/300x200?text=Bild+1",
+        "https://via.placeholder.com/300x200?text=Bild+2",
+        "https://via.placeholder.com/300x200?text=Bild+3"
+      ];
+      let currentImage = 0;
+
+      function showSlide(index) {
+        const image = document.getElementById("carouselImage");
+        currentImage = (index + images.length) % images.length;
+        image.src = images[currentImage];
+        updateDots();
+      }
+
+      function nextSlide() {
+        showSlide(currentImage + 1);
+      }
+
+      function prevSlide() {
+        showSlide(currentImage - 1);
+      }
+
+      function createDots() {
+        const dotsContainer = document.getElementById("dotsContainer");
+        dotsContainer.innerHTML = "";
+        images.forEach((_, i) => {
+          const dot = document.createElement("span");
+          dot.className = "carousel-dot";
+          dot.addEventListener("click", () => showSlide(i));
+          dotsContainer.appendChild(dot);
+        });
+        updateDots();
+      }
+
+      function updateDots() {
+        const dots = document.querySelectorAll(".carousel-dot");
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentImage);
+        });
+      }
+
+      showSlide(0);
+      createDots();
     });
 
-    const images = [
-      "https://via.placeholder.com/300x200?text=Bild+1",
-      "https://via.placeholder.com/300x200?text=Bild+2",
-      "https://via.placeholder.com/300x200?text=Bild+3"
-    ];
-    let currentImage = 0;
-
-    function showSlide(index) {
-      const image = document.getElementById("carouselImage");
-      currentImage = (index + images.length) % images.length;
-      image.src = images[currentImage];
-      updateDots();
+    function openPopup() {
+      document.getElementById("kontaktPopup").classList.add("active");
+      document.getElementById("overlay").style.display = "block";
     }
 
-    function nextSlide() {
-      showSlide(currentImage + 1);
+    function closePopup() {
+      document.getElementById("kontaktPopup").classList.remove("active");
+      document.getElementById("overlay").style.display = "none";
     }
-
-    function prevSlide() {
-      showSlide(currentImage - 1);
-    }
-
-    function createDots() {
-      const dotsContainer = document.getElementById("dotsContainer");
-      dotsContainer.innerHTML = "";
-      images.forEach((_, i) => {
-        const dot = document.createElement("span");
-        dot.className = "carousel-dot";
-        dot.addEventListener("click", () => showSlide(i));
-        dotsContainer.appendChild(dot);
-      });
-      updateDots();
-    }
-
-    function updateDots() {
-      const dots = document.querySelectorAll(".carousel-dot");
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === currentImage);
-      });
-    }
-
-    showSlide(0);
-    createDots();
-  });
-
-  function openPopup() {
-    document.getElementById("kontaktPopup").classList.add("active");
-    document.getElementById("overlay").style.display = "block";
-  }
-
-  function closePopup() {
-    document.getElementById("kontaktPopup").classList.remove("active");
-    document.getElementById("overlay").style.display = "none";
-  }
-</script>
+  </script>
 </body>
 </html>
