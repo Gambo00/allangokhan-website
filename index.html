@@ -410,21 +410,27 @@
     }
 
     showSlide(0);
-createDots();
+  createDots();
 
-function createDots() {
-  const dotsContainer = document.getElementById("dotsContainer");
-  dotsContainer.innerHTML = "";
-  images.forEach((_, i) => {
-    const dot = document.createElement("span");
-    dot.className = "carousel-dot";
-    dot.addEventListener("click", () => showSlide(i));
-    dotsContainer.appendChild(dot);
-  });
-  updateDots();
-}
-      updateDots();
+  function createDots() {
+    const dotsContainer = document.getElementById("dotsContainer");
+    dotsContainer.innerHTML = "";
+    images.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.className = "carousel-dot";
+      dot.addEventListener("click", () => showSlide(i));
+      dotsContainer.appendChild(dot);
     });
+    updateDots();
+  }
+
+  function updateDots() {
+    const dots = document.querySelectorAll(".carousel-dot");
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentImage);
+    });
+  }
+});
     }
 
     function updateDots() {
