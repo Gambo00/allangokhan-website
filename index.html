@@ -265,15 +265,40 @@
         padding: 1rem;
       }
     }
-  </style>
+      .slideshow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .slideshow img {
+      width: 300px;
+      height: 200px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .slideshow button {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+</style>
 </head>
 <body>
   <div id="loader">
-    <img src="https://i.imgur.com/RESrImt.png" alt="Logo">
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo">
   </div>
 
   <header>
-    <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
     <a href="#" class="center-link">Allan & Gökhan</a>
     <nav>
       <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
@@ -286,11 +311,11 @@
       <iframe src="https://www.youtube.com/embed/d_BZSpm2bS0" allowfullscreen></iframe>
     </div>
 
-    <div class="slideshow">
-      <img src="https://i.imgur.com/t0z87XK.png" alt="Bild 1">
-      <img src="https://i.imgur.com/b5lkQ3h.png" alt="Bild 2">
-      <img src="https://i.imgur.com/qRuklDg.png" alt="Bild 3">
-    </div>
+    <div class="slideshow" id="carousel">
+  <button onclick="prevSlide()">⬅</button>
+  <img id="carouselImage" src="https://via.placeholder.com/300x200?text=Bild+1" alt="Slideshow">
+  <button onclick="nextSlide()">➡</button>
+</div>
 
     <form id="feedbackForm">
       <h2>Feedback senden</h2>
@@ -303,10 +328,10 @@
     <div class="kontakt-popup" id="kontaktPopup">
       <button class="close-btn" onclick="closePopup()">✖</button>
       <h2>Kontakt</h2>
-      <div>👤 Name: Allan & Gökhan</div>
-      <div>📞 Nummer: +43 664 31693169</div>
-      <div>📍 Standort: Universum</div>
-      <div>📧 E-Mail: allangokhan69@gambo.lol</div>
+      <div>👤 Name: Allan Gökhan</div>
+      <div>📞 Nummer: +43 664 1234567</div>
+      <div>📍 Standort: Österreich</div>
+      <div>📧 E-Mail: mail@example.com</div>
       <div>
         <a href="https://snapchat.com/t/uCmJ17at" target="_blank" style="color: white; text-decoration: none;">
           📸 Snapchat
@@ -347,6 +372,29 @@
       document.getElementById("kontaktPopup").classList.remove("active");
       document.getElementById("overlay").style.display = "none";
     }
+      const images = [
+      "https://i.imgur.com/qRuklDg.png",
+      "https://i.imgur.com/qRuklDg.png",
+      "https://i.imgur.com/qRuklDg.png"
+    ];
+    let currentImage = 0;
+
+    function showSlide(index) {
+      const image = document.getElementById("carouselImage");
+      currentImage = (index + images.length) % images.length;
+      image.src = images[currentImage];
+    }
+
+    function nextSlide() {
+      showSlide(currentImage + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentImage - 1);
+    }
+
+    showSlide(0);
+
   </script>
 </body>
 </html>
