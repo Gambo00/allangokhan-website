@@ -68,6 +68,10 @@
       color: white;
     }
 
+    nav {
+      margin-right: 1rem;
+    }
+
     nav a {
       color: white;
       text-decoration: none;
@@ -166,11 +170,12 @@
       font-size: 1rem;
       cursor: pointer;
     }
-      .kontakt-popup {
+
+    .kontakt-popup {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.8);
       background: rgba(0,0,0,0.8);
       backdrop-filter: blur(10px);
       padding: 2rem;
@@ -179,6 +184,14 @@
       text-align: center;
       display: none;
       z-index: 1000;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .kontakt-popup.active {
+      display: block;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
 
     .kontakt-popup h2 {
@@ -192,6 +205,17 @@
       border-radius: 12px;
     }
 
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -201,6 +225,45 @@
       background: rgba(0,0,0,0.5);
       display: none;
       z-index: 999;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .logo-img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .center-link {
+        font-size: 1.1rem;
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .content-box {
+        height: 250px;
+        width: 90%;
+      }
+
+      .slideshow img {
+        width: 90%;
+      }
+
+      .kontakt-popup {
+        width: 90%;
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -212,9 +275,9 @@
   <header>
     <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
     <a href="#" class="center-link">Allan & Gökhan</a>
-    <nav style="margin-right: 1.5rem;">
-  <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
-</nav>
+    <nav>
+      <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
+    </nav>
   </header>
 
   <main>
@@ -235,8 +298,10 @@
       <textarea id="message" rows="4" placeholder="Deine Nachricht" required></textarea>
       <button type="submit">Absenden</button>
     </form>
-      <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+
+    <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
     <div class="kontakt-popup" id="kontaktPopup">
+      <button class="close-btn" onclick="closePopup()">✖</button>
       <h2>Kontakt</h2>
       <div>👤 Name: Allan Gökhan</div>
       <div>📞 Nummer: +43 664 1234567</div>
@@ -272,12 +337,14 @@
         document.getElementById("feedbackForm").reset();
       });
     });
-      function openPopup() {
-      document.getElementById("kontaktPopup").style.display = "block";
+
+    function openPopup() {
+      document.getElementById("kontaktPopup").classList.add("active");
       document.getElementById("overlay").style.display = "block";
     }
+
     function closePopup() {
-      document.getElementById("kontaktPopup").style.display = "none";
+      document.getElementById("kontaktPopup").classList.remove("active");
       document.getElementById("overlay").style.display = "none";
     }
   </script>
