@@ -6,20 +6,26 @@
   <title>Allan & Gökhan</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: url('https://i.imgur.com/ruPkVMx.png') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://i.imgur.com/ruPkVMx.png') no-repeat center center fixed; /* #hintergrund */
+      background-size: cover;
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     header {
       width: 100%;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1rem; /* kompakter */
       background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px); /* weniger blur */
       position: fixed;
       top: 0;
       left: 0;
@@ -30,7 +36,7 @@
     }
 
     .logo-img {
-      width: 70px;
+      width: 70px; /* #logo größer gemacht */
       height: 70px;
       border-radius: 50%;
       object-fit: cover;
@@ -67,13 +73,7 @@
     h1 {
       font-size: 3.5rem;
       margin-bottom: 2rem;
-      text-shadow: 0 0 10px white;
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 10px white; }
-      to { text-shadow: 0 0 20px #ffcc00; }
+      text-shadow: 0 0 10px black;
     }
 
     .content-box {
@@ -88,7 +88,6 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      margin-bottom: 2rem;
     }
 
     iframe {
@@ -98,75 +97,127 @@
       border-radius: 20px;
     }
 
-    form {
-      margin: 0 auto;
-      width: 80%;
-      max-width: 500px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 1.5rem;
-      border-radius: 20px;
+    /* Kontakt-Popup */
+    .kontakt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
       backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      z-index: 1000;
     }
 
-    form input, form textarea {
-      width: 100%;
-      padding: 0.7rem;
+    .kontakt-popup h2 {
       margin-bottom: 1rem;
-      border: none;
-      border-radius: 10px;
     }
 
-    form button {
-      padding: 0.7rem;
+    .kontakt-popup div {
+      margin: 10px 0;
+      background: rgba(255,255,255,0.08);
+      padding: 0.8rem;
+      border-radius: 12px;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
-      background: gold;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+
+    /* Responsive für Mobile */
+    @media (max-width: 600px) {
+      header {
+        padding: 0.5rem 1rem;
+        flex-direction: row; /* bleibt nebeneinander */
+        justify-content: space-between;
+      }
+
+      .logo-img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .center-link {
+        font-size: 1.1rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .content-box {
+        height: 250px;
+        width: 90%;
+      }
+
+      .kontakt-popup {
+        width: 90%;
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+
+  <div class="kontakt-popup" id="kontaktPopup">
+    <h2>Kontakt</h2>
+    <div>👤 Name: Allan Gökhan</div>
+    <div>📞 Nummer: +43 664 1234567</div>
+    <div>📍 Standort: Österreich</div>
+    <div>📧 E-Mail: mail@example.com</div>
+    <div>
+      <a href="https://snapchat.com/t/uCmJ17at" target="_blank" style="color: white; text-decoration: none;">
+        📸 Snapchat
+      </a>
+    </div>
+  </div>
+
   <header>
-    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img">
+    <img src="https://i.imgur.com/niaOgDu.png" alt="Logo" class="logo-img"> <!-- #logo -->
     <a href="#" class="center-link">Allan & Gökhan</a>
     <nav>
-      <a href="https://snapchat.com/t/uCmJ17at" target="_blank">📸 Snapchat</a>
+      <a href="javascript:void(0)" onclick="openPopup()">Kontakt</a>
     </nav>
   </header>
 
   <main>
     <h1>Willkommen 👋</h1>
     <div class="content-box">
-      <iframe src="https://www.youtube.com/embed/d_BZSpm2bS0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/d_BZSpm2bS0" allowfullscreen></iframe> <!-- #yt video -->
     </div>
-
-    <form id="feedbackForm">
-      <h2>Feedback senden</h2>
-      <input type="text" id="name" placeholder="Dein Name" required>
-      <textarea id="message" rows="4" placeholder="Deine Nachricht" required></textarea>
-      <button type="submit">Absenden</button>
-    </form>
   </main>
 
   <script>
-    document.getElementById("feedbackForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const message = document.getElementById("message").value;
-      const webhookURL = "https://discord.com/api/webhooks/1373399241858220062/hnBuQo6wnitsLq0p1rQpSAnO82pf_N4fX6g5GmoUo0TX5lBjf1mk6WxiFE1XzGrMwONV";
-
-      const discordMessage = `\n\u0060\u0060\u0060\nName: ${name}\nNachricht: ${message}\n\u0060\u0060\u0060`;
-
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: discordMessage })
-      }).then(() => {
-        alert("Danke für dein Feedback!");
-        document.getElementById("feedbackForm").reset();
-      });
-    });
+    function openPopup() {
+      document.getElementById("kontaktPopup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+    function closePopup() {
+      document.getElementById("kontaktPopup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
   </script>
+
 </body>
 </html>
