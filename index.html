@@ -343,11 +343,14 @@
       });
 
       const images = [
-        "https://via.placeholder.com/300x200?text=Bild+1",
-        "https://via.placeholder.com/300x200?text=Bild+2",
-        "https://via.placeholder.com/300x200?text=Bild+3"
+        "https://i.imgur.com/qRuklDg.png",
+        "https://i.imgur.com/qRuklDg.png",
+        "https://i.imgur.com/qRuklDg.png"
       ];
       let currentImage = 0;
+
+      document.querySelector('button[onclick="nextSlide()"]')?.addEventListener('click', () => nextSlide());
+      document.querySelector('button[onclick="prevSlide()"]')?.addEventListener('click', () => prevSlide());
 
       function showSlide(index) {
         const image = document.getElementById("carouselImage");
