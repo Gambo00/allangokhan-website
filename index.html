@@ -356,9 +356,8 @@
   </main>
 
   <script>
-    window.addEventListener("load", function () {
-      document.getElementById("loader").style.display = "none";
-    });
+  window.addEventListener("load", function () {
+    document.getElementById("loader").style.display = "none";
 
     document.getElementById("feedbackForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -378,16 +377,7 @@
       });
     });
 
-    function openPopup() {
-      document.getElementById("kontaktPopup").classList.add("active");
-      document.getElementById("overlay").style.display = "block";
-    }
-
-    function closePopup() {
-      document.getElementById("kontaktPopup").classList.remove("active");
-      document.getElementById("overlay").style.display = "none";
-    }
-      const images = [
+    const images = [
       "https://i.imgur.com/RESrImt.png",
       "https://i.imgur.com/qRuklDg.png",
       "https://via.placeholder.com/300x200?text=Bild+3"
@@ -409,28 +399,16 @@
       showSlide(currentImage - 1);
     }
 
-    showSlide(0);
-  createDots();
-
-  function createDots() {
-    const dotsContainer = document.getElementById("dotsContainer");
-    dotsContainer.innerHTML = "";
-    images.forEach((_, i) => {
-      const dot = document.createElement("span");
-      dot.className = "carousel-dot";
-      dot.addEventListener("click", () => showSlide(i));
-      dotsContainer.appendChild(dot);
-    });
-    updateDots();
-  }
-
-  function updateDots() {
-    const dots = document.querySelectorAll(".carousel-dot");
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("active", i === currentImage);
-    });
-  }
-});
+    function createDots() {
+      const dotsContainer = document.getElementById("dotsContainer");
+      dotsContainer.innerHTML = "";
+      images.forEach((_, i) => {
+        const dot = document.createElement("span");
+        dot.className = "carousel-dot";
+        dot.addEventListener("click", () => showSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+      updateDots();
     }
 
     function updateDots() {
@@ -440,6 +418,19 @@
       });
     }
 
+    showSlide(0);
+    createDots();
+  });
+
+  function openPopup() {
+    document.getElementById("kontaktPopup").classList.add("active");
+    document.getElementById("overlay").style.display = "block";
+  }
+
+  function closePopup() {
+    document.getElementById("kontaktPopup").classList.remove("active");
+    document.getElementById("overlay").style.display = "none";
+  }
 </script>
 </body>
 </html>
