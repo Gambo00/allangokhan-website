@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feed – Allan & Gökhan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AG Feed</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -12,12 +12,58 @@
       background-size: cover;
       color: white;
       margin: 0;
-      padding: 2rem;
+      padding: 0;
     }
+
+    header {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    nav {
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      transition: background 0.2s ease;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    main {
+      padding-top: 120px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
     h1 {
       text-align: center;
       margin-bottom: 2rem;
-      text-shadow: 0 0 8px #000;
     }
     form {
       max-width: 500px;
@@ -28,13 +74,11 @@
       background: rgba(0,0,0,0.6);
       padding: 1.5rem;
       border-radius: 15px;
-      backdrop-filter: blur(5px);
     }
     input, textarea {
       padding: 0.8rem;
       border: none;
       border-radius: 10px;
-      font-size: 1rem;
     }
     button {
       padding: 0.8rem;
@@ -42,7 +86,6 @@
       border: none;
       border-radius: 10px;
       font-weight: bold;
-      font-size: 1rem;
       cursor: pointer;
     }
     .feed {
@@ -56,7 +99,6 @@
       background: rgba(0,0,0,0.6);
       padding: 1rem;
       border-radius: 12px;
-      backdrop-filter: blur(5px);
     }
     .post img {
       width: 100%;
@@ -74,30 +116,30 @@
       cursor: pointer;
       user-select: none;
     }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-      form, .feed {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
-  <h1>📷 AG Feed</h1>
+  <header>
+    <a href="index.html">
+      <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
+    </a>
+    <nav>
+      <a href="index.html">🏠 Zurück</a>
+    </nav>
+  </header>
 
-  <form id="uploadForm">
-    <input type="text" id="name" placeholder="Dein Name" required>
-    <textarea id="message" placeholder="Deine Nachricht" required></textarea>
-    <input type="file" id="imageInput" accept="image/*" required>
-    <button type="submit">Beitrag hochladen</button>
-  </form>
+  <main>
+    <h1>📷 AG Feed</h1>
+    <form id="uploadForm">
+      <input type="text" id="name" placeholder="Dein Name" required>
+      <textarea id="message" placeholder="Deine Nachricht" required></textarea>
+      <input type="file" id="imageInput" accept="image/*" required>
+      <button type="submit">Beitrag hochladen</button>
+    </form>
 
-  <div class="feed" id="feed"></div>
+    <div class="feed" id="feed"></div>
+  </main>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
@@ -165,16 +207,14 @@
 
     window.likePost = async (id) => {
       const refDoc = doc(db, 'posts', id);
-      const snap = await getDocs(collection(db, 'posts'));
-      const data = snap.docs.find(d => d.id === id).data();
+      const data = (await getDocs(collection(db, 'posts'))).docs.find(d => d.id === id).data();
       await updateDoc(refDoc, { likes: data.likes + 1 });
       loadPosts();
     };
 
     window.dislikePost = async (id) => {
       const refDoc = doc(db, 'posts', id);
-      const snap = await getDocs(collection(db, 'posts'));
-      const data = snap.docs.find(d => d.id === id).data();
+      const data = (await getDocs(collection(db, 'posts'))).docs.find(d => d.id === id).data();
       await updateDoc(refDoc, { dislikes: data.dislikes + 1 });
       loadPosts();
     };
