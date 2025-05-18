@@ -125,6 +125,62 @@
       user-select: none;
     }
 
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+
+    .kontakt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      z-index: 1000;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .kontakt-popup.active {
+      display: block;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .kontakt-popup h2 {
+      margin-bottom: 1rem;
+    }
+
+    .kontakt-popup div {
+      margin: 10px 0;
+      background: rgba(255,255,255,0.08);
+      padding: 0.8rem;
+      border-radius: 12px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
     @media (max-width: 600px) {
       header {
         flex-direction: row;
@@ -166,6 +222,21 @@
 
     <div class="feed" id="feed"></div>
   </main>
+
+  <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
+  <div class="kontakt-popup" id="kontaktPopup">
+    <button class="close-btn" onclick="closePopup()">✖</button>
+    <h2>Kontakt</h2>
+    <div>👤 Name: Allan & Gökhan</div>
+    <div>📞 Nummer: +43 664 31693169</div>
+    <div>📍 Standort: Ananin Ami</div>
+    <div>📧 E-Mail: ananisikiyim69@gambo.lol</div>
+    <div>
+      <a href="https://snapchat.com/t/uCmJ17at" target="_blank" style="color: white; text-decoration: none;">
+        📸 Snapchat
+      </a>
+    </div>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
@@ -247,6 +318,17 @@
     };
 
     loadPosts();
+  </script>
+  <script>
+    function openPopup() {
+      document.getElementById("kontaktPopup").classList.add("active");
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("kontaktPopup").classList.remove("active");
+      document.getElementById("overlay").style.display = "none";
+    }
   </script>
 </body>
 </html>
