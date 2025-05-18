@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: url('https://i.imgur.com/mtEWRK1.png') no-repeat center center fixed;
+      background: url('https://i.imgur.com/JfzfSGl.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
       margin: 0;
@@ -40,8 +40,6 @@
     nav {
       margin-left: auto;
       margin-right: 1rem;
-      display: flex;
-      gap: 0.5rem;
     }
 
     nav a {
@@ -126,6 +124,24 @@
       cursor: pointer;
       user-select: none;
     }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+
+      .logo-img {
+        width: 50px;
+        height: 50px;
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.7rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -134,8 +150,8 @@
       <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
     </a>
     <nav>
-      <a href="index.html">📞 Kontakt</a>
-      <a href="feed.html">📰 Feed</a>
+      <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
+      <a href="feed.html">🌐 Feed</a>
     </nav>
   </header>
 
