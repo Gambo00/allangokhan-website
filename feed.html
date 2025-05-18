@@ -92,6 +92,13 @@
       cursor: pointer;
     }
 
+    .message {
+      text-align: center;
+      color: lime;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
     .feed {
       display: flex;
       flex-direction: column;
@@ -123,6 +130,21 @@
     .reaction span {
       cursor: pointer;
       user-select: none;
+    }
+
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      margin: 0 5px;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .popup-overlay {
@@ -213,6 +235,7 @@
 
   <main>
     <h1>📷 AG Feed</h1>
+    <div id="successMsg" class="message"></div>
     <form id="uploadForm">
       <input type="text" id="name" placeholder="Dein Name" required>
       <textarea id="message" placeholder="Deine Nachricht" required></textarea>
@@ -221,6 +244,7 @@
     </form>
 
     <div class="feed" id="feed"></div>
+    <div class="pagination" id="pagination"></div>
   </main>
 
   <div class="popup-overlay" id="overlay" onclick="closePopup()"></div>
@@ -258,6 +282,9 @@
 
     const form = document.getElementById('uploadForm');
     const feed = document.getElementById('feed');
+    const pagination = document.getElementById('pagination');
+    const messageBox = document.getElementById('successMsg');
+    let allPosts = [], currentPage = 1, postsPerPage = 10;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -280,14 +307,26 @@
       });
 
       form.reset();
-      loadPosts();
+      messageBox.innerText = "✅ Beitrag erfolgreich hochgeladen!";
+      setTimeout(() => messageBox.innerText = '', 3000);
+      await loadPosts();
     });
 
     async function loadPosts() {
-      feed.innerHTML = '';
       const snapshot = await getDocs(collection(db, 'posts'));
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
+      allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).reverse();
+      renderPosts();
+    }
+
+    function renderPosts() {
+      feed.innerHTML = '';
+      pagination.innerHTML = '';
+
+      const start = (currentPage - 1) * postsPerPage;
+      const end = start + postsPerPage;
+      const paginatedPosts = allPosts.slice(start, end);
+
+      for (const data of paginatedPosts) {
         const el = document.createElement('div');
         el.className = 'post';
         el.innerHTML = `
@@ -295,26 +334,34 @@
           ${data.message}
           <img src="${data.imageUrl}" alt="Bild">
           <div class="reaction">
-            <span onclick="likePost('${docSnap.id}')">❤️ ${data.likes}</span>
-            <span onclick="dislikePost('${docSnap.id}')">💔 ${data.dislikes}</span>
+            <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
+            <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
           </div>
         `;
         feed.appendChild(el);
-      });
+      }
+
+      const totalPages = Math.ceil(allPosts.length / postsPerPage);
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.onclick = () => { currentPage = i; renderPosts(); };
+        pagination.appendChild(btn);
+      }
     }
 
     window.likePost = async (id) => {
       const refDoc = doc(db, 'posts', id);
-      const data = (await getDocs(collection(db, 'posts'))).docs.find(d => d.id === id).data();
+      const data = allPosts.find(d => d.id === id);
       await updateDoc(refDoc, { likes: data.likes + 1 });
-      loadPosts();
+      await loadPosts();
     };
 
     window.dislikePost = async (id) => {
       const refDoc = doc(db, 'posts', id);
-      const data = (await getDocs(collection(db, 'posts'))).docs.find(d => d.id === id).data();
+      const data = allPosts.find(d => d.id === id);
       await updateDoc(refDoc, { dislikes: data.dislikes + 1 });
-      loadPosts();
+      await loadPosts();
     };
 
     loadPosts();
