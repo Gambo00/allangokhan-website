@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AG Feed</title>
+  <title>AG Feed Popup</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -14,153 +14,147 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      width: 100%;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo-img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    nav {
-      margin-left: auto;
-      margin-right: 1rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
-      transition: background 0.2s ease;
-    }
-    nav a:hover {
-      background: rgba(255,255,255,0.15);
-    }
-    main {
-      padding-top: 120px;
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+
     .feed {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 0 1rem;
     }
+
     .post {
-      width: 200px;
       background: rgba(0,0,0,0.6);
       padding: 1rem;
       border-radius: 12px;
-      text-align: center;
     }
+
     .post img {
       width: 100%;
-      height: 150px;
+      max-height: 300px;
       object-fit: cover;
       border-radius: 10px;
+      margin-top: 0.5rem;
       cursor: pointer;
     }
+
+    .reaction {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 1rem;
+      font-size: 1.5rem;
+      align-items: center;
+    }
+
+    .reaction span {
+      cursor: pointer;
+      user-select: none;
+    }
+
     .image-popup {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
+      display: flex;
       align-items: center;
-      z-index: 1001;
+      justify-content: center;
+      z-index: 1000;
+      display: none;
     }
+
     .image-popup img {
       max-width: 90%;
       max-height: 90%;
       border-radius: 10px;
     }
-    .close-btn {
+
+    .image-popup .close-btn {
       position: absolute;
       top: 20px;
-      right: 30px;
-      font-size: 2rem;
-      color: white;
-      background: none;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
       border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
       cursor: pointer;
-      z-index: 1002;
+    }
+
+    @media (max-width: 600px) {
+      .post img {
+        max-height: 200px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html">
-      <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
-    </a>
-    <nav>
-      <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
-      <a href="feed.html">🌐 Feed</a>
-    </nav>
-  </header>
-
-  <main>
-    <h1>📷 AG Feed</h1>
-    <div class="feed" id="feed">
-      <!-- Posts will be loaded here -->
-    </div>
-  </main>
+  <div class="feed" id="feed">
+    <!-- Posts will be rendered here dynamically -->
+  </div>
 
   <div class="image-popup" id="imagePopup">
     <button class="close-btn" onclick="closeImagePopup()">X</button>
     <img id="popupImg" src="" alt="Popup Image">
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5h7nbYEDsCZqVYp8iR6-qBVGmk_La96c",
+      authDomain: "ag-feed-6def6.firebaseapp.com",
+      projectId: "ag-feed-6def6",
+      storageBucket: "ag-feed-6def6.firebasestorage.app",
+      messagingSenderId: "748842838349",
+      appId: "1:748842838349:web:fcc54993a73dc525cf2f04"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const feed = document.getElementById('feed');
     const imagePopup = document.getElementById('imagePopup');
     const popupImg = document.getElementById('popupImg');
 
-    const dummyPosts = [
-      { name: 'Allan', message: 'Testbild 1', imageUrl: 'https://i.imgur.com/9bMyUGm.jpeg' },
-      { name: 'Gökhan', message: 'Testbild 2', imageUrl: 'https://i.imgur.com/JfzfSGl.png' }
-    ];
-
-    dummyPosts.forEach(post => {
-      const el = document.createElement('div');
-      el.className = 'post';
-      el.innerHTML = `
-        <strong>${post.name}</strong><br>
-        ${post.message}<br>
-        <img src="${post.imageUrl}" onclick="showImagePopup('${post.imageUrl}')">
-      `;
-      feed.appendChild(el);
-    });
-
-    function showImagePopup(url) {
-      popupImg.src = url;
+    function showImagePopup(src) {
+      popupImg.src = src;
       imagePopup.style.display = 'flex';
     }
 
     function closeImagePopup() {
-      popupImg.src = '';
       imagePopup.style.display = 'none';
+      popupImg.src = '';
     }
+
+    async function loadPosts() {
+      const snapshot = await getDocs(collection(db, 'posts'));
+      const posts = snapshot.docs.map(doc => doc.data()).reverse();
+
+      for (const post of posts) {
+        const el = document.createElement('div');
+        el.className = 'post';
+        el.innerHTML = `
+          <strong>${post.name}</strong><br>
+          ${post.message}<br>
+          <img src="${post.imageUrl}" onclick="showImagePopup('${post.imageUrl}')">
+          <div class="reaction">
+            <span>❤️ ${post.likes}</span>
+            <span>💔 ${post.dislikes}</span>
+          </div>
+        `;
+        feed.appendChild(el);
+      }
+    }
+
+    loadPosts();
+    window.showImagePopup = showImagePopup;
+    window.closeImagePopup = closeImagePopup;
   </script>
 </body>
 </html>
