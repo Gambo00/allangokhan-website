@@ -261,11 +261,12 @@
   </style>
 </head>
 <script>
-  const CORRECT_PASSWORD = "meinpasswort123"; // ← HIER Passwort ändern
+  const ALLOWED_PASSWORDS = ["TURKEI", "TURKEY", "Turkei", "Turkey", "Turkeı", "türkei", "türkeı", "türkëi", "türki", "türkëı", "türkey", "türkiye", "TÜRKEI", "TÜRKEY", "Türkei", "Türkiye", "Türkıye", "Türkïye", "türkeI", "türkiyë", "türkeyı", "türkiye", "türKIYE", "TÜRKIYE", "türKİYE", "turkei", "turkeı", "turkëi", "turki", "turkëı", "turkey", "turkeyı", "turkeyi", "Türkiye", "türki", "türkiı", "türkië", "TÜRKI", "TURKİYE", "Türkİye", "TürkİYE", "TÜRKİYE", "TÜRKiYE", "TÜRKiye", "TÜRKI", "TÜRkiye", "türKİ", "türKİe", "türKİYE", "Türkeı", "TürKey", "TürKİ", "TÜRkey", "türKEI", "türKEı", "türKEİ", "türKËİ", "TürKeyİ", "türKÉİ", "türKÉI", "türKEÏ", "Türkie", "TürkIe", "türkIe", "TürkIë", "türkIë", "türkiË", "türkïë", "Türkïë", "türkïe", "Türkïe", "türkIË", "türKIE", "türKIE", "türKİË", "türKİË", "türKÎE", "türKÎË", "türKïe", "türKïË", "türKïE", "türKï", "türKÏ", "türKÏE", "türKÏË", "türKYE", "türKAYE", "türKEYE", "türKEYË", "türKEÏË", "türKËYË", "türKĪE"
+]; // ← hier deine Passwörter
 
   function checkPassword() {
     const input = document.getElementById("passwordInput").value;
-    if (input === CORRECT_PASSWORD) {
+    if (ALLOWED_PASSWORDS.includes(input)) {
       document.getElementById("passwordOverlay").style.display = "none";
     } else {
       document.getElementById("wrongPass").style.display = "block";
@@ -273,8 +274,10 @@
   }
 </script>
 
+
 <body>
 <div id="passwordOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;color:white;">
+  <h2 style="margin-bottom: 1rem; color: white;">🔐 Passwort ist 🇹🇷</h2>
   <h2>🔒 Passwortgeschützt</h2>
   <input type="password" id="passwordInput" placeholder="Passwort eingeben..." style="padding:10px;border-radius:5px;border:none;">
   <button onclick="checkPassword()" style="margin-top:10px;padding:10px 20px;border:none;border-radius:5px;background:gold;color:black;font-weight:bold;">🔓 Entsperren</button>
