@@ -387,16 +387,16 @@
         const paginatedPosts = allPosts.slice(start, end);
 
         for (const data of paginatedPosts) {
-          const el = document.createElement('div');
-          el.className = 'post';
-          el.innerHTML = `
-            <strong>${data.name}</strong><br>
-            ${data.message}
-            <img src="${data.imageUrl}" alt="Bild" onclick="showImagePopup('${data.imageUrl}')">
-            <div class="reaction">
-              <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
-              <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
-            </div>
+        const el = document.createElement('div');
+        el.className = 'post';
+        el.innerHTML = `
+          <div><strong>Name:</strong> ${data.name}</div>
+          <div>${data.message}</div>
+          <img src="${data.imageUrl}" alt="Bild" onclick="showImagePopup('${data.imageUrl}')">
+          <div class="reaction">
+            <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
+            <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
+          </div>
           `;
           feed.appendChild(el);
         }
