@@ -115,6 +115,9 @@
 
     .post img {
       width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      cursor: pointer;
       border-radius: 10px;
       margin-top: 0.5rem;
     }
@@ -220,44 +223,36 @@
         padding: 0.4rem 0.7rem;
       }
     }
-    /* Einheitliche Bildgröße */
-.post img {
-  width: 100%;
-  max-height: 250px;
-  object-fit: cover;
-  cursor: pointer;
-}
 
-/* Popup für Originalbild */
-.image-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1001;
-}
+    .image-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
 
-.image-popup img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-}
+    .image-popup img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
 
-.image-popup .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
+    .image-popup .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -300,110 +295,11 @@
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
-    import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+  <div class="image-popup" id="imagePopup">
+    <button class="close-btn" onclick="closeImagePopup()">✖</button>
+    <img id="popupImg" src="" alt="Full Image">
+  </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD5h7nbYEDsCZqVYp8iR6-qBVGmk_La96c",
-      authDomain: "ag-feed-6def6.firebaseapp.com",
-      projectId: "ag-feed-6def6",
-      storageBucket: "ag-feed-6def6.firebasestorage.app",
-      messagingSenderId: "748842838349",
-      appId: "1:748842838349:web:fcc54993a73dc525cf2f04"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
-    const db = getFirestore(app);
-
-    const form = document.getElementById('uploadForm');
-    const feed = document.getElementById('feed');
-    const pagination = document.getElementById('pagination');
-    const messageBox = document.getElementById('successMsg');
-    let allPosts = [], currentPage = 1, postsPerPage = 10;
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const message = document.getElementById('message').value;
-      const file = document.getElementById('imageInput').files[0];
-      if (!file) return;
-
-      const storageRef = ref(storage, 'images/' + Date.now() + '-' + file.name);
-      await uploadBytes(storageRef, file);
-      const imageUrl = await getDownloadURL(storageRef);
-
-      await addDoc(collection(db, 'posts'), {
-        name,
-        message,
-        imageUrl,
-        likes: 0,
-        dislikes: 0
-      });
-
-      form.reset();
-      messageBox.innerText = "✅ Beitrag erfolgreich hochgeladen!";
-      setTimeout(() => messageBox.innerText = '', 3000);
-      await loadPosts();
-    });
-
-    async function loadPosts() {
-      const snapshot = await getDocs(collection(db, 'posts'));
-      allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).reverse();
-      renderPosts();
-    }
-
-    function renderPosts() {
-      feed.innerHTML = '';
-      pagination.innerHTML = '';
-
-      const start = (currentPage - 1) * postsPerPage;
-      const end = start + postsPerPage;
-      const paginatedPosts = allPosts.slice(start, end);
-
-      for (const data of paginatedPosts) {
-        const el = document.createElement('div');
-        el.className = 'post';
-        el.innerHTML = 
-          <strong>${data.name}</strong><br>
-          ${data.message}
-          <img src="${data.imageUrl}" alt="Bild" onclick="showImagePopup('${data.imageUrl}')">
-          <div class="reaction">
-            <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
-            <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
-          </div>
-        ;
-        feed.appendChild(el);
-      }
-
-      const totalPages = Math.ceil(allPosts.length / postsPerPage);
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.innerText = i;
-        btn.onclick = () => { currentPage = i; renderPosts(); };
-        pagination.appendChild(btn);
-      }
-    }
-
-    window.likePost = async (id) => {
-      const refDoc = doc(db, 'posts', id);
-      const data = allPosts.find(d => d.id === id);
-      await updateDoc(refDoc, { likes: data.likes + 1 });
-      await loadPosts();
-    };
-
-    window.dislikePost = async (id) => {
-      const refDoc = doc(db, 'posts', id);
-      const data = allPosts.find(d => d.id === id);
-      await updateDoc(refDoc, { dislikes: data.dislikes + 1 });
-      await loadPosts();
-    };
-
-    loadPosts();
-  </script>
   <script>
     function openPopup() {
       document.getElementById("kontaktPopup").classList.add("active");
@@ -414,14 +310,7 @@
       document.getElementById("kontaktPopup").classList.remove("active");
       document.getElementById("overlay").style.display = "none";
     }
-  </script>
 
-<div class="image-popup" id="imagePopup">
-    <button class="close-btn" onclick="closeImagePopup()">✖</button>
-    <img id="popupImg" src="" alt="Full Image">
-  </div>
-
-  <script>
     function showImagePopup(src) {
       const popup = document.getElementById('imagePopup');
       const popupImg = document.getElementById('popupImg');
@@ -433,5 +322,106 @@
       document.getElementById('imagePopup').style.display = 'none';
     }
 
+    document.addEventListener('DOMContentLoaded', async () => {
+      const form = document.getElementById('uploadForm');
+      const feed = document.getElementById('feed');
+      const pagination = document.getElementById('pagination');
+      const messageBox = document.getElementById('successMsg');
+
+      const app = firebase.initializeApp({
+        apiKey: "AIzaSyD5h7nbYEDsCZqVYp8iR6-qBVGmk_La96c",
+        authDomain: "ag-feed-6def6.firebaseapp.com",
+        projectId: "ag-feed-6def6",
+        storageBucket: "ag-feed-6def6.firebasestorage.app",
+        messagingSenderId: "748842838349",
+        appId: "1:748842838349:web:fcc54993a73dc525cf2f04"
+      });
+
+      const storage = firebase.storage();
+      const db = firebase.firestore();
+
+      let allPosts = [], currentPage = 1, postsPerPage = 10;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const message = document.getElementById('message').value;
+        const file = document.getElementById('imageInput').files[0];
+        if (!file) return;
+
+        const storageRef = storage.ref('images/' + Date.now() + '-' + file.name);
+        await storageRef.put(file);
+        const imageUrl = await storageRef.getDownloadURL();
+
+        await db.collection('posts').add({
+          name,
+          message,
+          imageUrl,
+          likes: 0,
+          dislikes: 0
+        });
+
+        form.reset();
+        messageBox.innerText = "✅ Beitrag erfolgreich hochgeladen!";
+        setTimeout(() => messageBox.innerText = '', 3000);
+        await loadPosts();
+      });
+
+      async function loadPosts() {
+        const snapshot = await db.collection('posts').get();
+        allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).reverse();
+        renderPosts();
+      }
+
+      function renderPosts() {
+        feed.innerHTML = '';
+        pagination.innerHTML = '';
+
+        const start = (currentPage - 1) * postsPerPage;
+        const end = start + postsPerPage;
+        const paginatedPosts = allPosts.slice(start, end);
+
+        for (const data of paginatedPosts) {
+          const el = document.createElement('div');
+          el.className = 'post';
+          el.innerHTML = `
+            <strong>${data.name}</strong><br>
+            ${data.message}
+            <img src="${data.imageUrl}" alt="Bild" onclick="showImagePopup('${data.imageUrl}')">
+            <div class="reaction">
+              <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
+              <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
+            </div>
+          `;
+          feed.appendChild(el);
+        }
+
+        const totalPages = Math.ceil(allPosts.length / postsPerPage);
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.innerText = i;
+          btn.onclick = () => { currentPage = i; renderPosts(); };
+          pagination.appendChild(btn);
+        }
+      }
+
+      window.likePost = async (id) => {
+        const refDoc = db.collection('posts').doc(id);
+        const data = allPosts.find(d => d.id === id);
+        await refDoc.update({ likes: data.likes + 1 });
+        await loadPosts();
+      };
+
+      window.dislikePost = async (id) => {
+        const refDoc = db.collection('posts').doc(id);
+        const data = allPosts.find(d => d.id === id);
+        await refDoc.update({ dislikes: data.dislikes + 1 });
+        await loadPosts();
+      };
+
+      await loadPosts();
+    });
+  </script>
 </body>
 </html>
