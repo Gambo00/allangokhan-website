@@ -260,20 +260,40 @@
     }
   </style>
 </head>
-<script>
-  const ALLOWED_PASSWORDS = ["TURKEI", "TURKEY","turkisch","türkisch","Türkce","turkce","türkce","Türkisch","Turkisch", "Turkei", "Turkey", "Turkeı", "türkei", "türkeı", "türkëi", "türki", "türkëı", "türkey", "türkiye", "TÜRKEI", "TÜRKEY", "Türkei", "Türkiye", "Türkıye", "Türkïye", "türkeI", "türkiyë", "türkeyı", "türkiye", "türKIYE", "TÜRKIYE", "türKİYE", "turkei", "turkeı", "turkëi", "turki", "turkëı", "turkey", "turkeyı", "turkeyi", "Türkiye", "türki", "türkiı", "türkië", "TÜRKI", "TURKİYE", "Türkİye", "TürkİYE", "TÜRKİYE", "TÜRKiYE", "TÜRKiye", "TÜRKI", "TÜRkiye", "türKİ", "türKİe", "türKİYE", "Türkeı", "TürKey", "TürKİ", "TÜRkey", "türKEI", "türKEı", "türKEİ", "türKËİ", "TürKeyİ", "türKÉİ", "türKÉI", "türKEÏ", "Türkie", "TürkIe", "türkIe", "TürkIë", "türkIë", "türkiË", "türkïë", "Türkïë", "türkïe", "Türkïe", "türkIË", "türKIE", "türKIE", "türKİË", "türKİË", "türKÎE", "türKÎË", "türKïe", "türKïË", "türKïE", "türKï", "türKÏ", "türKÏE", "türKÏË", "türKYE", "türKAYE", "türKEYE", "türKEYË", "türKEÏË", "türKËYË", "türKĪE"
-]; // ← hier deine Passwörter
 
-  function checkPassword() {
-    const input = document.getElementById("passwordInput").value;
-    if (ALLOWED_PASSWORDS.includes(input)) {
-      document.getElementById("passwordOverlay").style.display = "none";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "DEIN_API_KEY",
+    authDomain: "DEIN_AUTH_DOMAIN",
+    projectId: "DEIN_PROJEKT_ID",
+    storageBucket: "DEIN_BUCKET",
+    messagingSenderId: "DEIN_SENDER_ID",
+    appId: "DEINE_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  document.getElementById("checkPassBtn").addEventListener("click", async () => {
+    const input = document.getElementById("passwordInput").value.trim();
+    const docRef = doc(db, "access", "pw");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const passwords = docSnap.data().list || [];
+      if (passwords.includes(input)) {
+        document.getElementById("passwordOverlay").style.display = "none";
+      } else {
+        document.getElementById("wrongPass").style.display = "block";
+      }
     } else {
-      document.getElementById("wrongPass").style.display = "block";
+      alert("⚠️ Passwortliste nicht gefunden!");
     }
-  }
+  });
 </script>
-
 
 <body>
 <div id="passwordOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;color:white;">
