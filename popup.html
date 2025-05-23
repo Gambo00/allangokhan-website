@@ -14,12 +14,12 @@
       margin: 0;
       padding: 0;
     }
-
     header {
       width: 100%;
       padding: 0.5rem 1rem;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       position: fixed;
       top: 0;
       left: 0;
@@ -28,14 +28,16 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .logo-img {
       width: 70px;
       height: 70px;
       border-radius: 50%;
       object-fit: cover;
     }
-
+    nav {
+      margin-left: auto;
+      margin-right: 1rem;
+    }
     nav a {
       color: white;
       text-decoration: none;
@@ -44,57 +46,56 @@
       background: rgba(255,255,255,0.05);
       transition: background 0.2s ease;
     }
-
     nav a:hover {
       background: rgba(255,255,255,0.15);
     }
-
     main {
       padding-top: 120px;
       padding-left: 2rem;
       padding-right: 2rem;
     }
-
-    form, .feed {
-      max-width: 600px;
-      margin: auto;
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
     }
-
+    .feed {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .post {
+      width: 200px;
+      background: rgba(0,0,0,0.6);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+    }
     .post img {
       width: 100%;
-      height: 300px;
+      height: 150px;
       object-fit: cover;
       border-radius: 10px;
-      margin-top: 0.5rem;
       cursor: pointer;
-      transition: transform 0.2s;
     }
-
-    .post img:hover {
-      transform: scale(1.02);
-    }
-
     .image-popup {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
       display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
     }
-
     .image-popup img {
       max-width: 90%;
       max-height: 90%;
-      border-radius: 15px;
+      border-radius: 10px;
     }
-
-    .image-popup .close-btn {
+    .close-btn {
       position: absolute;
       top: 20px;
       right: 30px;
@@ -103,13 +104,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 10000;
-    }
-
-    @media (max-width: 600px) {
-      .post img {
-        height: 200px;
-      }
+      z-index: 1002;
     }
   </style>
 </head>
@@ -126,11 +121,13 @@
 
   <main>
     <h1>📷 AG Feed</h1>
-    <div class="feed" id="feed"></div>
+    <div class="feed" id="feed">
+      <!-- Posts will be loaded here -->
+    </div>
   </main>
 
   <div class="image-popup" id="imagePopup">
-    <button class="close-btn" onclick="closeImagePopup()">✖</button>
+    <button class="close-btn" onclick="closeImagePopup()">X</button>
     <img id="popupImg" src="" alt="Popup Image">
   </div>
 
@@ -139,33 +136,21 @@
     const imagePopup = document.getElementById('imagePopup');
     const popupImg = document.getElementById('popupImg');
 
-    // Dummy posts for example (replace with Firebase logic)
-    const posts = [
-      {
-        name: "Allan",
-        message: "Mein geiles Bild",
-        imageUrl: "https://i.imgur.com/b9NyUGm.jpeg"
-      },
-      {
-        name: "Gökhan",
-        message: "Look at this view!",
-        imageUrl: "https://i.imgur.com/JfzfSGl.png"
-      }
+    const dummyPosts = [
+      { name: 'Allan', message: 'Testbild 1', imageUrl: 'https://i.imgur.com/9bMyUGm.jpeg' },
+      { name: 'Gökhan', message: 'Testbild 2', imageUrl: 'https://i.imgur.com/JfzfSGl.png' }
     ];
 
-    function renderPosts() {
-      feed.innerHTML = '';
-      posts.forEach(post => {
-        const el = document.createElement('div');
-        el.className = 'post';
-        el.innerHTML = `
-          <strong>${post.name}</strong><br>
-          ${post.message}
-          <img src="${post.imageUrl}" alt="Bild" onclick="showImagePopup('${post.imageUrl}')">
-        `;
-        feed.appendChild(el);
-      });
-    }
+    dummyPosts.forEach(post => {
+      const el = document.createElement('div');
+      el.className = 'post';
+      el.innerHTML = `
+        <strong>${post.name}</strong><br>
+        ${post.message}<br>
+        <img src="${post.imageUrl}" onclick="showImagePopup('${post.imageUrl}')">
+      `;
+      feed.appendChild(el);
+    });
 
     function showImagePopup(url) {
       popupImg.src = url;
@@ -176,8 +161,6 @@
       popupImg.src = '';
       imagePopup.style.display = 'none';
     }
-
-    renderPosts();
   </script>
 </body>
 </html>
