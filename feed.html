@@ -114,12 +114,9 @@
     }
 
     .post img {
-      height: 300px;
       width: 100%;
-      object-fit: cover;
       border-radius: 10px;
       margin-top: 0.5rem;
-      cursor: pointer;
     }
 
     .reaction {
@@ -149,38 +146,6 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .image-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .image-modal img {
-      max-width: 90%;
-      max-height: 90%;
-    }
-    .image-modal .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 2rem;
-      color: white;
-      cursor: pointer;
-    }
-    @media (max-width: 600px) {
-      .post img {
-        height: 200px;
-      }
-    }
-  </style>
-</head>
-<body>
 
     .popup-overlay {
       position: fixed;
@@ -364,7 +329,7 @@
       for (const data of paginatedPosts) {
         const el = document.createElement('div');
         el.className = 'post';
-        el.innerHTML = `
+        el.innerHTML = 
           <strong>${data.name}</strong><br>
           ${data.message}
           <img src="${data.imageUrl}" alt="Bild">
@@ -372,7 +337,7 @@
             <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
             <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
           </div>
-        `;
+        ;
         feed.appendChild(el);
       }
 
