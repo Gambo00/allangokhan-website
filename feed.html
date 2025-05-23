@@ -266,12 +266,12 @@
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "DEIN_API_KEY",
-    authDomain: "DEIN_AUTH_DOMAIN",
-    projectId: "DEIN_PROJEKT_ID",
-    storageBucket: "DEIN_BUCKET",
-    messagingSenderId: "DEIN_SENDER_ID",
-    appId: "DEINE_APP_ID"
+    apiKey: "AIzaSyD5h7nbYEDsCZqVYp8iR6-qBVGmk_La96c",
+    authDomain: "ag-feed-6def6.firebaseapp.com",
+    projectId: "ag-feed-6def6",
+    storageBucket: "ag-feed-6def6.firebasestorage.app",
+    messagingSenderId: "748842838349",
+    appId: "1:748842838349:web:fcc54993a73dc525cf2f04"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -300,7 +300,7 @@
   <h2 style="margin-bottom: 1rem; color: white;">🔐 Passwort ist 🇹🇷</h2>
   <h2>🔒</h2>
   <input type="password" id="passwordInput" placeholder="Passwort eingeben..." style="padding:10px;border-radius:5px;border:none;">
-  <button onclick="checkPassword()" style="margin-top:10px;padding:10px 20px;border:none;border-radius:5px;background:gold;color:black;font-weight:bold;">🔓 Entsperren</button>
+  <button id="checkPassBtn" style="...">🔓 Entsperren</button>
   <p id="wrongPass" style="color:red;margin-top:10px;display:none;">❌ Falsches Passwort</p>
 </div>
 
