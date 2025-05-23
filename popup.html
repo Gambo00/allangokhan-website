@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AG Feed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://i.imgur.com/JfzfSGl.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      transition: background 0.2s ease;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    main {
+      padding-top: 120px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    form, .feed {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .post img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .post img:hover {
+      transform: scale(1.02);
+    }
+
+    .image-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      display: none;
+    }
+
+    .image-popup img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 15px;
+    }
+
+    .image-popup .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    @media (max-width: 600px) {
+      .post img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
+    </a>
+    <nav>
+      <a href="javascript:void(0)" onclick="openPopup()">📞 Kontakt</a>
+      <a href="feed.html">🌐 Feed</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>📷 AG Feed</h1>
+    <div class="feed" id="feed"></div>
+  </main>
+
+  <div class="image-popup" id="imagePopup">
+    <button class="close-btn" onclick="closeImagePopup()">✖</button>
+    <img id="popupImg" src="" alt="Popup Image">
+  </div>
+
+  <script>
+    const feed = document.getElementById('feed');
+    const imagePopup = document.getElementById('imagePopup');
+    const popupImg = document.getElementById('popupImg');
+
+    // Dummy posts for example (replace with Firebase logic)
+    const posts = [
+      {
+        name: "Allan",
+        message: "Mein geiles Bild",
+        imageUrl: "https://i.imgur.com/b9NyUGm.jpeg"
+      },
+      {
+        name: "Gökhan",
+        message: "Look at this view!",
+        imageUrl: "https://i.imgur.com/JfzfSGl.png"
+      }
+    ];
+
+    function renderPosts() {
+      feed.innerHTML = '';
+      posts.forEach(post => {
+        const el = document.createElement('div');
+        el.className = 'post';
+        el.innerHTML = `
+          <strong>${post.name}</strong><br>
+          ${post.message}
+          <img src="${post.imageUrl}" alt="Bild" onclick="showImagePopup('${post.imageUrl}')">
+        `;
+        feed.appendChild(el);
+      });
+    }
+
+    function showImagePopup(url) {
+      popupImg.src = url;
+      imagePopup.style.display = 'flex';
+    }
+
+    function closeImagePopup() {
+      popupImg.src = '';
+      imagePopup.style.display = 'none';
+    }
+
+    renderPosts();
+  </script>
+</body>
+</html>
