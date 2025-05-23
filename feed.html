@@ -260,7 +260,27 @@
     }
   </style>
 </head>
+<script>
+  const CORRECT_PASSWORD = "meinpasswort123"; // ← HIER Passwort ändern
+
+  function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    if (input === CORRECT_PASSWORD) {
+      document.getElementById("passwordOverlay").style.display = "none";
+    } else {
+      document.getElementById("wrongPass").style.display = "block";
+    }
+  }
+</script>
+
 <body>
+<div id="passwordOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:black;z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;color:white;">
+  <h2>🔒 Passwortgeschützt</h2>
+  <input type="password" id="passwordInput" placeholder="Passwort eingeben..." style="padding:10px;border-radius:5px;border:none;">
+  <button onclick="checkPassword()" style="margin-top:10px;padding:10px 20px;border:none;border-radius:5px;background:gold;color:black;font-weight:bold;">🔓 Entsperren</button>
+  <p id="wrongPass" style="color:red;margin-top:10px;display:none;">❌ Falsches Passwort</p>
+</div>
+
   <header>
     <a href="index.html">
       <img src="https://i.imgur.com/RESrImt.png" alt="Logo" class="logo-img">
