@@ -220,6 +220,44 @@
         padding: 0.4rem 0.7rem;
       }
     }
+    /* Einheitliche Bildgröße */
+.post img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Popup für Originalbild */
+.image-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.image-popup img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.image-popup .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
@@ -332,7 +370,7 @@
         el.innerHTML = 
           <strong>${data.name}</strong><br>
           ${data.message}
-          <img src="${data.imageUrl}" alt="Bild">
+          <img src="${data.imageUrl}" alt="Bild" onclick="showImagePopup('${data.imageUrl}')">
           <div class="reaction">
             <span onclick="likePost('${data.id}')">❤️ ${data.likes}</span>
             <span onclick="dislikePost('${data.id}')">💔 ${data.dislikes}</span>
@@ -377,5 +415,23 @@
       document.getElementById("overlay").style.display = "none";
     }
   </script>
+
+<div class="image-popup" id="imagePopup">
+    <button class="close-btn" onclick="closeImagePopup()">✖</button>
+    <img id="popupImg" src="" alt="Full Image">
+  </div>
+
+  <script>
+    function showImagePopup(src) {
+      const popup = document.getElementById('imagePopup');
+      const popupImg = document.getElementById('popupImg');
+      popupImg.src = src;
+      popup.style.display = 'flex';
+    }
+
+    function closeImagePopup() {
+      document.getElementById('imagePopup').style.display = 'none';
+    }
+
 </body>
 </html>
