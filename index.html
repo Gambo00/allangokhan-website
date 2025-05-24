@@ -359,14 +359,14 @@
         e.preventDefault();
         const name = document.getElementById("name").value;
         const message = document.getElementById("message").value;
-        const webhookURL = "https://discord.com/api/webhooks/1373399241858220062/hnBuQo6wnitsLq0p1rQpSAnO82pf_N4fX6g5GmoUo0TX5lBjf1mk6WxiFE1XzGrMwONV";
+        const cloudFunctionURL = "https://us-central1-ag-feed-6def6.cloudfunctions.net/sendFeedback";
 
         const discordMessage = `Name: ${name}\nNachricht: ${message}`;
 
-        fetch(webhookURL, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: discordMessage })
+        fetch(cloudFunctionURL, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, message })
         }).then(() => {
           alert("Danke für dein Feedback!");
           document.getElementById("feedbackForm").reset();
