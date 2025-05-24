@@ -261,6 +261,26 @@
   </style>
 </head>
 
+<script>
+  async function sendLoginInfo() {
+    try {
+      const ipData = await fetch("https://api.ipify.org/?format=json").then(res => res.json());
+      const ip = ipData.ip;
+      const userAgent = navigator.userAgent;
+      const timestamp = new Date().toLocaleString();
+
+      await fetch("https://us-central1-ag-feed-6def6.cloudfunctions.net/notifyDiscord", { // <-- DEINE URL hier!
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ip, userAgent, timestamp })
+      });
+    } catch (err) {
+      console.error("Fehler beim Senden an Discord:", err);
+    }
+  }
+</script>
+
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
@@ -286,6 +306,7 @@
       const passwords = docSnap.data().list || [];
       if (passwords.includes(input)) {
         document.getElementById("passwordOverlay").style.display = "none";
+        sendLoginInfo(); // 👉 Das ruft deinen Discord-Webhook sicher über Cloud Function auf
       } else {
         document.getElementById("wrongPass").style.display = "block";
       }
