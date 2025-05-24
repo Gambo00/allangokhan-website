@@ -432,6 +432,7 @@
           imageUrl,
           likes: 0,
           dislikes: 0
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
         form.reset();
@@ -441,7 +442,10 @@
       });
 
       async function loadPosts() {
-        const snapshot = await db.collection('posts').get();
+        const snapshot = await db.collection('posts')
+        .orderBy('timestamp', 'desc')
+        .get();
+
         allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).reverse();
         renderPosts();
       }
