@@ -452,7 +452,7 @@
 
         const start = (currentPage - 1) * postsPerPage;
         const end = start + postsPerPage;
-        const paginatedPosts = allPosts.slice(start, end);
+        const paginatedPosts = allPosts.slice().reverse().slice(start, end);
 
         for (const data of paginatedPosts) {
         const el = document.createElement('div');
