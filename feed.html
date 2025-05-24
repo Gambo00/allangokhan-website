@@ -427,12 +427,13 @@
         const imageUrl = await storageRef.getDownloadURL();
 
         await db.collection('posts').add({
-          name,
-          message,
-          imageUrl,
-          likes: 0,
-          dislikes: 0
-        });
+        name,
+        message,
+        imageUrl,
+        likes: 0,
+        dislikes: 0,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp() // ✅ wichtig!
+      });
 
         form.reset();
         messageBox.innerText = "✅ Beitrag erfolgreich hochgeladen!";
@@ -441,9 +442,12 @@
       });
 
       async function loadPosts() {
-        const snapshot = await db.collection('posts')
-        allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).reverse();
-        renderPosts();
+      const snapshot = await db.collection('posts')
+      .orderBy('timestamp', 'desc') // ✅ neu hinzugefügt
+      .get();
+
+      allPosts = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      renderPosts();
       }
 
       function renderPosts() {
