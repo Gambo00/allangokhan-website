@@ -269,7 +269,7 @@
       const userAgent = navigator.userAgent;
       const timestamp = new Date().toLocaleString();
 
-      await fetch("https://us-central1-ag-feed-6def6.cloudfunctions.net/notifyDiscord", { // <-- DEINE URL hier!
+      await fetch("https://notifydiscord-gltyjclkwa-uc.a.run.app", { // <-- DEINE URL hier!
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ip, userAgent, timestamp })
